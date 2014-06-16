@@ -7,7 +7,7 @@ import javax.imageio.stream.ImageOutputStream;
 
 class Compresssion {
 
-   public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
       
 	   
 	   int percent = Integer.parseInt(args[0]);
@@ -22,7 +22,7 @@ class Compresssion {
            { 
                String fileName=filelist[i].getName(); 
                System.out.println(fileName);
-               compress ("./pic/"+fileName,percent);
+               compress(fileName,percent);
            } 
        } 
 
@@ -33,10 +33,12 @@ class Compresssion {
    
    public static void compress (String fileName,int percent) throws IOException {
 	   
-	   	File input = new File(fileName);
+	   	File input = new File("./pic/"+fileName);
+	   	
+	   	
 	      BufferedImage image = ImageIO.read(input);
 
-	      File compressedImageFile = new File(fileName+"_compressed.jpg");
+	      File compressedImageFile = new File("./pic_cp/"+fileName+"_cp.jpg");
 	      OutputStream os =new FileOutputStream(compressedImageFile);
 
 	      Iterator<ImageWriter>writers = 
