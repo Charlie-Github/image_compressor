@@ -38,7 +38,7 @@ class Compresssion {
 	   	
 	      BufferedImage image = ImageIO.read(input);
 
-	      File compressedImageFile = new File("./pic_cp/"+fileName+"_cp.jpg");
+	      File compressedImageFile = new File("./pic_cmpressed/"+fileName);
 	      OutputStream os =new FileOutputStream(compressedImageFile);
 
 	      Iterator<ImageWriter>writers = 
