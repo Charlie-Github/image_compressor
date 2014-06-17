@@ -7,10 +7,10 @@ import javax.imageio.stream.ImageOutputStream;
 
 class Compresssion {
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
       
 	   
-	   int percent = Integer.parseInt(args[0]);
+	   int percent = Integer.parseInt("50");
 	   String f="./pic"; 
        File file=new File(f); 
        
@@ -20,9 +20,44 @@ class Compresssion {
            File[] filelist=file.listFiles(); 
            for(int i=0;i<filelist.length;i++) 
            { 
-               String fileName=filelist[i].getName(); 
-               System.out.println(fileName);
-               compress(fileName,percent);
+        	   
+        	   try{
+	               String fileName=filelist[i].getName();
+	               long fileSize = filelist[i].length();
+	               System.out.println(fileName+": "+fileSize+" bytes");
+	               if(fileSize > 2097152){
+	            	   
+	            	   compress(fileName,percent);
+	            	   System.out.println("-Compressed");
+	               }
+	               else{
+	            	   InputStream inStream = null;
+	                   OutputStream outStream = null;
+	                   
+	            
+	                       File file1 =new File("./pic/"+fileName);
+	                       File file2 =new File("./pic_cmpressed/"+fileName);
+	            
+	                       inStream = new FileInputStream(file1);
+	                       outStream = new FileOutputStream(file2); // for override file content
+	                       //outStream = new FileOutputStream(file2,<strong>true</strong>); // for append file content
+	            
+	                       byte[] buffer = new byte[1024];
+	            
+	                       int length;
+	                       while ((length = inStream.read(buffer)) > 0){
+	                           outStream.write(buffer, 0, length);
+	                       }
+	            
+	                       if (inStream != null)inStream.close();
+	                       if (outStream != null)outStream.close();
+	            	   System.out.println("-Nothing");
+	               }
+	               
+        	   }
+        	   catch(Exception e){
+        		   System.out.println("Bad image");
+           	   }
            } 
        } 
 
