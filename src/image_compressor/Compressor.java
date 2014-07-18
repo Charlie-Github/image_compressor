@@ -4,13 +4,12 @@ import java.util.*;
 import javax.imageio.*;
 import java.awt.image.*;
 import javax.imageio.stream.ImageOutputStream;
-
 class Compresssion {
 
   public static void main(String[] args) {
       
 	   
-	   int percent = Integer.parseInt("50");
+	   float percent = Integer.parseInt("100");
 	   String f="./pic"; 
        File file=new File(f); 
        
@@ -25,7 +24,11 @@ class Compresssion {
 	               String fileName=filelist[i].getName();
 	               long fileSize = filelist[i].length();
 	               System.out.println(fileName+": "+fileSize+" bytes");
-	               if(fileSize > 2097152){
+	               if(fileSize > 0){
+	            	   
+	            	   
+	            	   percent = 100f - fileSize/102400;
+	            	   System.out.println(percent);
 	            	   
 	            	   compress(fileName,percent);
 	            	   System.out.println("-Compressed");
@@ -36,7 +39,7 @@ class Compresssion {
 	                   
 	            
 	                       File file1 =new File("./pic/"+fileName);
-	                       File file2 =new File("./pic_cmpressed/"+fileName);
+	                       File file2 =new File("./pic_cp/"+fileName);
 	            
 	                       inStream = new FileInputStream(file1);
 	                       outStream = new FileOutputStream(file2); // for override file content
@@ -56,7 +59,8 @@ class Compresssion {
 	               
         	   }
         	   catch(Exception e){
-        		   System.out.println("Bad image");
+        		   e.getMessage();
+        		   System.out.println("No image");
            	   }
            } 
        } 
@@ -66,14 +70,14 @@ class Compresssion {
    }
    
    
-   public static void compress (String fileName,int percent) throws IOException {
+   public static void compress (String fileName,float percent) throws IOException {
 	   
 	   	File input = new File("./pic/"+fileName);
 	   	
 	   	
 	      BufferedImage image = ImageIO.read(input);
 
-	      File compressedImageFile = new File("./pic_cmpressed/"+fileName);
+	      File compressedImageFile = new File("./pic_cp/"+fileName);
 	      OutputStream os =new FileOutputStream(compressedImageFile);
 
 	      Iterator<ImageWriter>writers = 
@@ -86,7 +90,8 @@ class Compresssion {
 	      ImageWriteParam param = writer.getDefaultWriteParam();
 	      param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
 	      
-	      float quality = percent / 100;
+	      float quality = percent/100f;
+	      System.out.println("quality is: "+quality);
 	      param.setCompressionQuality(quality);
 	      writer.write(null, new IIOImage(image, null, null), param);
 	      os.close();
